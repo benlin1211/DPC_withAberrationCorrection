@@ -227,10 +227,15 @@ class DPCSolver:
         dpc_result  = []
         AHA         = [(self.Hu.conj()*self.Hu).sum(axis=0)+self.reg_u,            (self.Hu.conj()*self.Hp).sum(axis=0),\
                        (self.Hp.conj()*self.Hu).sum(axis=0)           , (self.Hp.conj()*self.Hp).sum(axis=0)+self.reg_p]
+        print("Hu", self.Hu.shape)
+        print("Hp", self.Hp.shape)
+        print("num of dpc_imgs:", self.dpc_imgs.shape[0])
+        print("dpc_num:", self.dpc_num)
         if method == "Tikhonov":
             determinant = AHA[0]*AHA[3]-AHA[1]*AHA[2]
             for frame_index in range(self.dpc_imgs.shape[0]//self.dpc_num):
                 fIntensity = np.asarray([F(self.dpc_imgs[frame_index*self.dpc_num+image_index]) for image_index in range(self.dpc_num)])
+                print("fIntensity", fIntensity.shape)
                 dpc_result.append(self.deconvTikhonov(AHA, determinant, fIntensity))
         elif method == "TV":
             fDx = np.zeros(self.dpc_imgs.shape[1:], dtype='complex64')
