@@ -1,0 +1,5 @@
+private_data/*
+*.zip
+*.tar
+.ipynb_checkpoints
+__pycache__
